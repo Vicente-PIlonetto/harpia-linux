@@ -1,0 +1,34 @@
+# Artefatos de fontes e build
+sources/
+build/
+work/
+*.buildlog
+
+# Cache e artefatos binários locais
+cache/
+pkg-cache/
+*.iso
+*.img
+*.qcow2
+*.vdi
+*.vmdk
+
+# Credenciais e dados locais sensíveis
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+credentials/
+secrets/
+
+# Logs não revisados
+logs/local/
+*.local.log
+
+# Ferramentas e sistema operacional
+.DS_Store
+*.swp
+.vscode/
+.idea/

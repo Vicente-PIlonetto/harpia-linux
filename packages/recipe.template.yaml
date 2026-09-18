@@ -1,0 +1,21 @@
+# NON-EXECUTABLE TEMPLATE — do not consume directly
+name: example-package
+version: "0.0.0"
+release: 1
+source:
+  url: https://example.invalid/source.tar.xz
+  sha256: REPLACE_WITH_VERIFIED_SHA256
+  signature:
+    status: pending-review
+    signer_fingerprint: REPLACE_AFTER_KEY_APPROVAL
+license: "REPLACE_WITH_UPSTREAM_LICENSE"
+build:
+  isolation: required
+  privileges: none
+  commands: [] # deliberately empty
+dependencies:
+  build: []
+  runtime: []
+review:
+  community_recipe_reviewed: false
+  notes: "Template only; no source has been approved."

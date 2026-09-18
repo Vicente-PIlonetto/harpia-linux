@@ -1,0 +1,19 @@
+site_name: Harpia Linux
+site_description: Documentação inicial da distribuição Harpia Linux
+docs_dir: docs
+nav:
+  - Português:
+      - Visão geral: pt-BR/visao-geral.md
+      - Estado atual: pt-BR/estado-atual.md
+      - Roadmap: pt-BR/roadmap.md
+      - Importar scripts da VM: pt-BR/importar-scripts-vm.md
+      - Matriz de testes: pt-BR/matriz-testes.md
+  - English:
+      - Overview: en/overview.md
+      - Current status: en/current-status.md
+  - Decisões:
+      - Índice: decisions/README.md
+      - ADR-0001: decisions/0001-base-systemd-uki.md
+      - ADR-0002: decisions/0002-package-management.md
+theme:
+  name: mkdocs
