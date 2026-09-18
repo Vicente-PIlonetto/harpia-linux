@@ -1,0 +1,4 @@
+# filename<TAB>sha256<TAB>origin URL<TAB>signature status
+# Populate only after the actual LFS edition, source URLs, hashes and signing
+# requirements have been independently reviewed. This repository deliberately
+# ships no source entry yet.
