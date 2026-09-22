@@ -1,15 +1,7 @@
 # Scripts
 
-These are safe Base 0.1 preparation tools, not LFS build automation:
+`scripts/imported/lfs-13.1-systemd/` contém a evidência histórica sanitizada da VM.
 
-- `preflight.sh`: read-only environment inspection and optional reviewed-value comparison.
-- `verify-sources.sh`: verifies already-downloaded sources against a reviewed lock file.
-- `check-import.sh`: heuristic scan before importing a sanitized VM-script copy.
-- `validate-repository.sh`: checks required repository paths and whitespace errors.
+Não altere os arquivos importados. As versões revisadas vivem em `build/scripts/`.
 
-They do not download, compile, mount, chroot, partition, format, change swap or
-modify system configuration. No source versions or LFS book edition are encoded
-until the actual VM scripts and source records are audited.
-
-Import existing VM scripts only after sanitization and review, following the
-[import guide](../docs/pt-BR/importar-scripts-vm.md).
+As ferramentas de auditoria existentes neste diretório continuam sendo usadas para preflight, lockfiles, importação e validação.
