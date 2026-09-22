@@ -1,0 +1,17 @@
+12-m4.sh
+13-ncurses.sh
+14-bash.sh
+15-coreutils.sh
+16-diffutils.sh
+17-file.sh
+18-findutils.sh
+19-gawk.sh
+20-grep.sh
+21-gzip.sh
+22-make.sh
+23-patch.sh
+24-sed.sh
+25-tar.sh
+26-xz.sh
+27-binutils-pass2.sh
+28-gcc-pass2.sh

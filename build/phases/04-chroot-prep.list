@@ -1,0 +1,12 @@
+29-mudar-propriedade-root.sh
+30-montar-kernfs.sh
+31-criar-diretorios-chroot.sh
+32-arquivos-essenciais.sh
+33-gettext-temp.sh
+34-bison-temp.sh
+35-perl-temp.sh
+36-zlib-temp.sh
+37-mpdecimal-temp.sh
+38-python-temp.sh
+39-texinfo-temp.sh
+40-util-linux-temp.sh

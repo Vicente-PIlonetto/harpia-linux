@@ -1,0 +1,6 @@
+01-preparar-sources.sh
+02-baixar-sources.sh
+03-verificar-sources.sh
+04-criar-layout-base.sh
+05-criar-usuario-lfs.sh
+06-configurar-ambiente-lfs.sh

@@ -1,17 +1,20 @@
-# Artefatos de fontes e build
+# Fontes baixadas e workdirs gerados localmente
 sources/
-build/
 work/
-*.buildlog
-
-# Cache e artefatos binários locais
 cache/
 pkg-cache/
+
+# Artefatos gerados pelo build
+*.buildlog
 *.iso
 *.img
 *.qcow2
 *.vdi
 *.vmdk
+
+# Runtime e resultados locais
+logs/local/
+*.local.log
 
 # Credenciais e dados locais sensíveis
 .env
@@ -23,12 +26,11 @@ pkg-cache/
 credentials/
 secrets/
 
-# Logs não revisados
-logs/local/
-*.local.log
-
 # Ferramentas e sistema operacional
 .DS_Store
 *.swp
 .vscode/
 .idea/
+
+# IMPORTANTE:
+# build/ é código-fonte versionado da Harpia e NÃO deve ser ignorado.
