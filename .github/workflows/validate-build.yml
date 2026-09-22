@@ -1,0 +1,32 @@
+name: Validate build scripts
+
+on:
+  push:
+    paths:
+      - 'build/**'
+      - '.github/workflows/validate-build.yml'
+  pull_request:
+    paths:
+      - 'build/**'
+      - '.github/workflows/validate-build.yml'
+
+jobs:
+  bash:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bash syntax
+        run: |
+          find build -type f -name '*.sh' -print0 |
+          xargs -0 -n1 bash -n
+
+      - name: ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+          find build -type f -name '*.sh' -print0 |
+          xargs -0 shellcheck -x || true
+
+      - name: Structural validation
+        run: bash build/validate.sh

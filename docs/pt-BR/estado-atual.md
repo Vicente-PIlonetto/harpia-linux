@@ -1,18 +1,27 @@
 # Estado atual e evidências
 
-## Relatos recebidos — ainda pendentes de auditoria
+## Evidência histórica
 
-- VM Proxmox com Debian trixie mínimo; 4 vCPU e 6 GiB RAM.
-- Disco LFS com EFI FAT32, swap e Btrfs; subvolumes `@` e `@snapshots`.
-- `LFS=/mnt/lfs`, EFI em `/mnt/lfs/boot/efi`, alvo `x86_64-lfs-linux-gnu`, `MAKEFLAGS=-j4`.
-- SSH, sudo, QEMU Guest Agent e Tailscale preparados; montagem e swaps reportados após reboot.
-- Binutils Pass 1, GCC Pass 1 e Linux API Headers reportados como concluídos.
-- Os scripts estariam em `~/lfs-build/scripts/` na VM.
+A cópia sanitizada coletada da VM permanece em:
 
-## Evidência versionada neste repositório
+`scripts/imported/lfs-13.1-systemd/`
 
-Ainda não há evidência de build, logs sanitizados, scripts importados ou artefatos de teste. Este commit inicial cria apenas estrutura e modelos de documentação.
+Ela é evidência histórica e não deve ser editada para corrigir erros encontrados.
 
-## Próxima confirmação obrigatória
+## Build revisado
 
-Quando o acesso à VM retornar, importar uma cópia sanitizada dos scripts e inventariar hashes, versão/edição do livro LFS, fontes usadas e logs relevantes. Não reiniciar a construção nem misturar versões antes dessa comparação.
+A árvore oficial `build/` consolida os módulos revisados até o número 72.
+
+O fluxo está dividido em:
+
+1. host e ambiente;
+2. cross-toolchain;
+3. ferramentas temporárias;
+4. chroot;
+5. sistema base.
+
+O módulo 41 é deliberadamente protegido porque remove `/tools`. O módulo 42 é somente um helper para desmontar os sistemas virtuais e não faz parte da execução linear.
+
+## Próxima meta
+
+Executar a árvore revisada em VM limpa ou snapshot restaurável, armazenando logs por etapa, e concluir os módulos de configuração final, kernel, UKI e systemd-boot.
