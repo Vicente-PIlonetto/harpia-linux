@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/branding/harpia-logo.png" alt="Harpia Linux logo" width="280">
+
 # Harpia Linux
 
 ### Linux sob seu controle.
@@ -258,13 +260,15 @@ Scripts históricos não são considerados automaticamente confiáveis apenas po
 harpia-linux/
 ├── .github/
 │   └── workflows/
-├── build/                  # build oficial revisado
-├── docs/                   # arquitetura e documentação
-├── packages/               # futuro ecossistema de pacotes
-├── profiles/               # Server / Desktop
-├── reports/                # auditorias e resultados
+├── assets/
+│   └── branding/
+│       └── harpia-logo.png
+├── build/
+├── docs/
+├── packages/
+├── profiles/
+├── reports/
 ├── scripts/
-│   └── imported/           # evidência histórica da VM
 ├── tests/
 ├── CONTRIBUTING.md
 ├── SECURITY.md
@@ -337,17 +341,11 @@ Primeira release pública
 
 A Harpia está sendo construída de forma incremental.
 
-Uma regra importante do projeto é:
-
 > Primeiro tornar uma etapa compreensível e reproduzível. Depois automatizá-la.
-
-Isso evita transformar erros acumulados em infraestrutura permanente.
 
 ---
 
 ## Contribuindo
-
-O projeto ainda está em fase inicial, portanto mudanças estruturais são esperadas.
 
 Antes de contribuir, consulte:
 
