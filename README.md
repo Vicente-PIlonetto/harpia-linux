@@ -6,368 +6,279 @@
 
 ### Linux sob seu controle.
 
-Uma distribuição Linux experimental construída **do zero com Linux From Scratch**, com foco em transparência, modularidade, recuperação e liberdade de escolha.
+Distribuição Linux experimental construída do zero com Linux From Scratch, com foco em transparência, modularidade, recuperação e liberdade de escolha.
 
-**Base atual:** LFS 13.1 · systemd · x86_64  
-**Objetivo de boot:** UKI + systemd-boot  
+**Base atual:** LFS 13.1-systemd · x86_64  
+**Boot planejado:** UKI + systemd-boot  
+**Filesystem:** Btrfs  
 **Perfis planejados:** Server estável · Desktop semirrolling
 
 </div>
 
 ---
 
-## O que é a Harpia Linux?
+## Estado atual
 
-A **Harpia Linux** nasceu de uma ideia simples:
+A Harpia está sendo construída e validada incrementalmente em VM. Ainda não existe release para uso diário.
 
-> O sistema deve ajudar o usuário sem esconder dele como as coisas funcionam.
+| Área | Estado |
+| --- | :---: |
+| Filosofia e arquitetura | ✅ |
+| Scripts históricos preservados | ✅ |
+| Módulos 01–71 | ✅ validados na VM |
+| Módulo 72 — GCC final | 🟡 em validação |
+| Módulos 73–82 | 🟡 implementados |
+| Módulos 83–100 | 🟡 implementados, aguardando teste |
+| Módulos 101–124 | 📌 numeração reservada |
+| Configuração/kernel 125–140 | 📌 roadmap congelado |
+| Boot/preflight 141–164 | 📌 roadmap congelado |
+| Primeiro boot | 🎯 módulo 165 |
 
-Em vez de começar a partir de outra distribuição pronta, a Harpia está sendo construída sobre o **Linux From Scratch (LFS)**. Isso permite compreender, controlar e documentar cada camada do sistema — da toolchain ao boot, do gerenciador de pacotes ao ambiente gráfico.
+## Meta congelada até o primeiro boot
 
-A intenção não é criar apenas "mais uma distro", mas uma base Linux que combine:
+```text
+01–124   sistema base LFS
+125–134  configuração do sistema
+135–140  fstab + kernel
+141–164  boot stack e preparação Harpia
+165      PRIMEIRO BOOT
+```
 
-- controle técnico sem exigir complexidade desnecessária;
-- automação sem transformar o sistema em uma caixa-preta;
-- segurança sem retirar autonomia do usuário;
-- atualizações com caminhos claros de recuperação;
-- perfis diferentes para servidor e desktop usando a mesma filosofia.
+A definição detalhada está em [`build/roadmap/first-boot.tsv`](build/roadmap/first-boot.tsv).
 
----
+> Numeração reservada não significa script implementado. Apenas módulos existentes em `build/scripts/` entram no runtime.
 
-## Filosofia
+## Correções descobertas em validação real
 
-### Controle pertence ao usuário
+O teste na VM já revelou e incorporou ajustes importantes:
 
-A Harpia pode oferecer padrões e automações, mas decisões importantes devem permanecer visíveis e reversíveis.
-
-### Simples para usar, transparente para entender
-
-A interface pode esconder complexidade operacional, mas nunca deve esconder o estado real do sistema.
-
-Arquivos de configuração, logs, decisões de atualização e mecanismos de recuperação devem poder ser inspecionados.
-
-### Automação auditável
-
-Automatizar não significa executar ações invisíveis.
-
-Os processos de build são divididos em módulos pequenos, versionados e verificáveis. Etapas destrutivas ou de alto impacto recebem tratamento explícito.
-
-### Recuperação é parte do sistema
-
-Rollback e snapshots não são considerados recursos extras.
-
-A arquitetura planejada utiliza **Btrfs**, snapshots e mecanismos coordenados de recuperação para que uma atualização com problema não signifique reinstalar o sistema.
-
-### Sem telemetria obrigatória
-
-Diagnósticos e logs são locais por padrão.
-
-Nenhum dado deve ser enviado automaticamente sem conhecimento e escolha do usuário.
-
-### Escolha sem transformar tudo em configuração manual
-
-A Harpia procura equilibrar duas coisas que normalmente entram em conflito:
-
-**liberdade de escolha** e **boa experiência padrão**.
-
-Quando uma escolha técnica não precisa ser exposta ao usuário, a distribuição pode selecionar um padrão seguro. Quando a escolha altera significativamente o comportamento do sistema, ela deve ser explícita e modificável posteriormente.
-
----
-
-## Por que o nome Harpia?
-
-A **harpia brasileira** representa a identidade visual e conceitual do projeto.
-
-É uma ave forte, precisa e adaptada ao seu ambiente — características que combinam com a proposta de um sistema enxuto, controlável e preparado para diferentes perfis de uso.
-
----
+- `config.site` com detecção de `posix_spawn_*`;
+- propagação de `HARP_TIMEZONE` no chroot;
+- teste PTY do Expect isolado de `stdin`;
+- scripts de chroot sem dependência do `$HOME` preservado por `sudo`.
 
 ## Arquitetura planejada
 
 | Área | Direção |
 | --- | --- |
-| Base | Linux From Scratch 13.1 + systemd |
+| Base | LFS 13.1-systemd |
 | Arquitetura inicial | x86_64 |
-| ARM64 | Planejado posteriormente |
+| ARM64 | futuro |
 | Boot | UKI + systemd-boot |
 | Filesystem | Btrfs |
 | Rede Server | systemd-networkd |
 | Rede Desktop | NetworkManager |
-| Pacotes | libalpm / pacman + infraestrutura própria |
-| Núcleo de ferramentas | Rust |
+| Pacotes | libalpm/pacman + camada própria |
 | Shell de sistema | Bash |
 | Shell de usuário Desktop | Fish |
 | Containers | Podman + Docker |
 | Desktop | KDE Plasma ou Hyprland |
 | Compatibilidade X11 | XWayland |
 | Acesso remoto | Tailscale + WireGuard |
-| Server | canal estável |
-| Desktop | modelo semirrolling |
 
----
-
-## Dois perfis, uma mesma base
-
-### Harpia Server
-
-O perfil Server prioriza:
-
-- baixo consumo de recursos;
-- estabilidade;
-- kernel de suporte prolongado;
-- serviços mínimos;
-- administração previsível;
-- containers;
-- servidores web;
-- bancos de dados.
-
-A meta inicial é manter uma instalação base extremamente enxuta.
-
-### Harpia Desktop
-
-O perfil Desktop acrescenta uma experiência moderna sobre a mesma base:
-
-- Wayland;
-- KDE Plasma ou Hyprland;
-- XWayland;
-- Steam e Proton;
-- Wine e Lutris;
-- GameMode e MangoHud;
-- Sunshine e Moonlight;
-- toolchains para desenvolvimento.
-
-A proposta é oferecer desempenho e flexibilidade sem transformar o sistema em uma instalação inflada por padrão.
-
----
-
-## Gerenciamento de pacotes
-
-A direção atual prevê **libalpm/pacman como engine**, com uma camada própria da Harpia sobre ela.
-
-O objetivo não é apenas instalar pacotes. O gerenciador deverá integrar:
-
-- CLI;
-- TUI;
-- interface gráfica;
-- canais de atualização;
-- histórico;
-- rollback de pacotes;
-- integração com snapshots;
-- validação de dependências;
-- repositórios próprios.
-
-A Harpia pretende separar a estabilidade do Server da evolução mais rápida do Desktop sem manter duas distribuições completamente diferentes.
-
----
-
-## Estado atual
-
-A Harpia ainda está em desenvolvimento inicial.
-
-O projeto possui documentação, auditoria dos scripts originais da VM e uma nova árvore de build reproduzível em construção.
-
-| Componente | Estado |
-| --- | :---: |
-| Filosofia e arquitetura | ✅ Definidas |
-| Documentação inicial | ✅ |
-| Auditoria dos scripts da VM | ✅ |
-| Build LFS modular | 🟡 Em desenvolvimento |
-| Módulos 01–72 | 🟡 Preparados para teste |
-| CI de scripts | 🟡 Inicial |
-| Sistema base bootável validado | ⏳ |
-| Kernel final | ⏳ |
-| UKI / systemd-boot | ⏳ |
-| Gerenciador de pacotes | ⏳ |
-| Perfil Server | ⏳ |
-| Perfil Desktop | ⏳ |
-| Instalador | ⏳ |
-| ISO pública | ⏳ |
-
-> **Importante:** ainda não existe uma release pronta para uso diário.
-
----
-
-## Como o build está organizado
-
-Os scripts coletados originalmente da VM são preservados como **evidência histórica**:
-
-```text
-scripts/imported/lfs-13.1-systemd/
-```
-
-Eles não devem ser alterados.
-
-A implementação revisada vive em:
-
-```text
-build/
-├── config/
-├── phases/
-├── scripts/
-│   └── lib/
-├── build.sh
-├── deploy.sh
-└── validate.sh
-```
-
-Essa separação permite comparar o que foi originalmente executado com a versão corrigida e reproduzível.
-
----
-
-## Fases atuais do LFS
-
-| Fase | Módulos | Situação |
-| --- | ---: | --- |
-| Preparação do host | 01–06 | consolidada |
-| Cross-toolchain | 07–11 | consolidada |
-| Ferramentas temporárias | 12–28 | consolidada |
-| Chroot e preparação | 29–40 | consolidada |
-| Limpeza temporária | 41 | protegida / manual |
-| Helper kernfs | 42 | auxiliar |
-| Sistema base | 43–72 | preparado para teste |
-| Configuração final | 73+ | próximo estágio |
-| Kernel e boot | futuro estágio | pendente |
-
-O módulo `41` é propositalmente protegido porque remove `/tools`.  
-O módulo `42` é auxiliar e não participa da execução linear automática.
-
----
-
-## Segurança e reprodutibilidade
-
-O projeto procura evoluir de um build manual para um processo verificável e reproduzível.
-
-A direção inclui:
-
-- versões fixadas;
-- SHA-256 para fontes;
-- origem registrada;
-- logs de build por módulo;
-- guardas antes de operações destrutivas;
-- validação de sintaxe;
-- ShellCheck;
-- testes automatizados;
-- runner de CI;
-- snapshots antes de etapas críticas.
-
-Scripts históricos não são considerados automaticamente confiáveis apenas porque executaram sem erro.
-
----
-
-## Estrutura do repositório
-
-```text
-harpia-linux/
-├── .github/
-│   └── workflows/
-├── assets/
-│   └── branding/
-│       └── harpia-logo.png
-├── build/
-├── docs/
-├── packages/
-├── profiles/
-├── reports/
-├── scripts/
-├── tests/
-├── CONTRIBUTING.md
-├── SECURITY.md
-└── README.md
-```
-
----
-
-## Testando o build
-
-O ambiente de desenvolvimento atual usa Debian como host.
-
-Depois de clonar o repositório:
+## Build
 
 ```bash
 cd harpia-linux/build
 ./validate.sh
 ./deploy.sh
-```
-
-Listar módulos:
-
-```bash
 ./build.sh --list
 ```
 
-Executar uma fase:
+Na primeira validação de cada módulo, execute-o individualmente. O projeto prioriza reprodutibilidade e diagnóstico antes de automação em lote.
 
-```bash
-./build.sh --phase cross --execute
-```
-
-Executar uma faixa específica:
-
-```bash
-./build.sh --from 7 --to 11 --execute
-```
-
-Etapas de alto impacto devem ser executadas somente após validação e, preferencialmente, com snapshot da VM.
-
----
-
-## Roadmap resumido
+## Estrutura
 
 ```text
-LFS reproduzível
-       ↓
-Sistema base bootável
-       ↓
-Kernel + UKI + systemd-boot
-       ↓
-Rede e serviços fundamentais
-       ↓
-Sistema de pacotes
-       ↓
-Rollback + snapshots
-       ↓
-Perfil Server
-       ↓
-Perfil Desktop
-       ↓
-Instalador
-       ↓
-Primeira release pública
+harpia-linux/
+├── assets/branding/
+├── build/
+│   ├── phases/
+│   ├── roadmap/
+│   ├── scripts/
+│   ├── build.sh
+│   ├── deploy.sh
+│   └── validate.sh
+├── docs/
+├── packages/
+├── profiles/
+├── reports/
+├── scripts/
+└── tests/
 ```
 
+## Roadmap
+
+```text
+LFS base
+   ↓
+Configuração
+   ↓
+Kernel
+   ↓
+UKI + systemd-boot
+   ↓
+Primeiro boot
+   ↓
+Harpia Base pós-boot
+   ↓
+Fly
+   ↓
+Desktop Base
+   ↓
+Harpialand / Caelestia / Plasma
+   ↓
+Btrfs rollback + gerenciador de pacotes
+   ↓
+Server / Desktop
+```
+
+
+## Fly — orquestrador de perfis e dotfiles
+
+Após o primeiro boot, a Harpia terá um orquestrador próprio chamado **Fly**.
+
+O Fly será responsável por aplicar e manter perfis de desktop, dependências, serviços, temas e dotfiles de forma modular, reexecutável e auditável.
+
+Exemplos planejados:
+
+```bash
+fly install harpialand
+fly install caelestia
+fly install plasma
+
+fly apply harpialand
+fly status
+fly update
+fly rollback
+```
+
+A ideia é separar o sistema base das experiências de desktop:
+
+```text
+harpia-base
+    ↓
+harpia-desktop-base
+    ├── harpialand
+    │     └── Hyprland + dotfiles oficiais da Harpia
+    ├── caelestia
+    │     └── Hyprland + Caelestia Shell / dots
+    └── plasma
+```
+
+O **Harpialand** será a experiência Hyprland oficial da Harpia, baseada em um conjunto próprio de dotfiles, temas, keybinds e integrações.  
+O **Caelestia** permanecerá como uma alternativa independente, também baseada em Hyprland, sem ser requisito para o Harpialand.
+
+Os defaults da distribuição ficarão versionados no repositório, e o Fly aplicará esses arquivos ao perfil do usuário sem depender de sobrescrever cegamente todo o `$HOME`.
+
+Estrutura planejada:
+
+```text
+desktop/
+├── common/
+│   ├── dotfiles/
+│   ├── services/
+│   ├── themes/
+│   └── packages/
+├── harpialand/
+│   ├── dotfiles/
+│   │   ├── hypr/
+│   │   ├── waybar/
+│   │   ├── rofi/
+│   │   ├── mako/
+│   │   ├── kitty/
+│   │   └── fish/
+│   ├── scripts/
+│   ├── services/
+│   ├── themes/
+│   └── packages.list
+├── caelestia/
+│   ├── dotfiles/
+│   ├── scripts/
+│   └── packages.list
+└── plasma/
+    ├── dotfiles/
+    ├── scripts/
+    └── packages.list
+
+fly/
+├── fly.sh
+├── lib/
+├── stages/
+└── profiles/
+```
+
+Princípios do Fly:
+
+- idempotente: poder ser executado novamente sem quebrar a instalação;
+- modular: cada etapa em um script separado;
+- reversível: backup e rollback de configurações;
+- integrado ao Btrfs: snapshots antes de alterações de alto impacto;
+- consciente de arquivos modificados pelo usuário;
+- capaz de instalar, aplicar, atualizar e alternar perfis;
+- preparado para Harpialand, Caelestia e KDE Plasma.
+
+O comando `fly` será a interface final para o usuário, enquanto `fly.sh` poderá permanecer como engine interna durante o desenvolvimento.
+
 ---
 
-## Desenvolvimento
 
-A Harpia está sendo construída de forma incremental.
+## Perfis de desktop planejados
 
-> Primeiro tornar uma etapa compreensível e reproduzível. Depois automatizá-la.
+A Harpia Desktop terá três experiências principais:
+
+```text
+1. Harpialand
+   Hyprland + dotfiles oficiais da Harpia
+
+2. Caelestia
+   Hyprland + Caelestia Shell / dots
+
+3. KDE Plasma
+```
+
+### Harpialand
+
+O **Harpialand** será o conjunto oficial de dotfiles e integrações Hyprland da Harpia Linux.
+
+Ele poderá incluir, de forma modular:
+
+- configuração Hyprland própria;
+- Waybar;
+- launcher;
+- notificações;
+- lockscreen;
+- idle manager;
+- terminal padrão;
+- Fish;
+- temas Harpia;
+- keybinds oficiais;
+- wallpapers;
+- scripts e utilitários do desktop;
+- integração com o Fly.
+
+O Harpialand não será um fork do Hyprland. Ele será a experiência visual e funcional da Harpia construída sobre o compositor upstream.
+
+### Caelestia
+
+O **Caelestia** será mantido como perfil alternativo sobre Hyprland.
+
+A Harpia não dependerá visualmente do Caelestia para existir. O Fly poderá instalar e configurar a pilha necessária quando esse perfil for escolhido.
+
+### Plasma
+
+O KDE Plasma permanecerá como alternativa completa de desktop, independente da pilha Harpialand/Caelestia.
 
 ---
-
 ## Contribuindo
 
-Antes de contribuir, consulte:
-
-- [`CONTRIBUTING.md`](CONTRIBUTING.md)
-- [`SECURITY.md`](SECURITY.md)
-- [`docs/`](docs/)
+Consulte `CONTRIBUTING.md`, `SECURITY.md` e `docs/` antes de enviar alterações.
 
 Não envie credenciais, chaves privadas, IPs pessoais, UUIDs de discos ou logs sem sanitização.
 
 ---
 
-## Licença
-
-A licença do código original da Harpia Linux ainda está em definição.
-
-Consulte [`LICENSE-STATUS.md`](LICENSE-STATUS.md) para o estado atual.
-
----
-
 <div align="center">
-
-### Harpia Linux
 
 **Controle quando importa. Automação quando ajuda. Recuperação quando algo dá errado.**
 

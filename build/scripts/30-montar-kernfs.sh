@@ -1,30 +1,18 @@
 #!/bin/bash
 set -e
-source "$HOME/lfs-build/config.sh"
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../config.sh"
 
 echo "Preparando sistemas de arquivos virtuais..."
 
 sudo mkdir -pv "$LFS"/{dev,proc,sys,run}
 
-if ! mountpoint -q "$LFS/dev"; then
-    sudo mount -v --bind /dev "$LFS/dev"
-fi
-
-if ! mountpoint -q "$LFS/dev/pts"; then
-    sudo mount -vt devpts devpts -o gid=5,mode=0620 "$LFS/dev/pts"
-fi
-
-if ! mountpoint -q "$LFS/proc"; then
-    sudo mount -vt proc proc "$LFS/proc"
-fi
-
-if ! mountpoint -q "$LFS/sys"; then
-    sudo mount -vt sysfs sysfs "$LFS/sys"
-fi
-
-if ! mountpoint -q "$LFS/run"; then
-    sudo mount -vt tmpfs tmpfs "$LFS/run"
-fi
+mountpoint -q "$LFS/dev"     || sudo mount -v --bind /dev "$LFS/dev"
+mountpoint -q "$LFS/dev/pts" || sudo mount -vt devpts devpts -o gid=5,mode=0620 "$LFS/dev/pts"
+mountpoint -q "$LFS/proc"    || sudo mount -vt proc proc "$LFS/proc"
+mountpoint -q "$LFS/sys"     || sudo mount -vt sysfs sysfs "$LFS/sys"
+mountpoint -q "$LFS/run"     || sudo mount -vt tmpfs tmpfs "$LFS/run"
 
 if [ -h "$LFS/dev/shm" ]; then
     sudo install -v -d -m 1777 "$LFS$(realpath /dev/shm)"
