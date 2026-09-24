@@ -12,17 +12,19 @@ while IFS= read -r -d '' f; do
     fi
 done < <(find "$ROOT_DIR" -type f -name '*.sh' -print0)
 
-echo "Contando módulos..."
-count="$(find "$ROOT_DIR/scripts" -maxdepth 1 -type f -name '[0-9][0-9]-*.sh' | wc -l)"
-echo "Módulos encontrados: $count"
-
-for n in $(seq 1 72); do
+echo "Validando módulos implementados..."
+for n in $(seq 1 100); do
     [ "$n" -eq 42 ] && continue
-    if ! find "$ROOT_DIR/scripts" -maxdepth 1 -type f -name "$(printf '%02d' "$n")-*.sh" | grep -q .; then
-        echo "FALTANDO: módulo $(printf '%02d' "$n")"
+    pattern="$(printf '%02d' "$n")"
+    if [ "$n" -ge 100 ]; then pattern="$n"; fi
+    if ! find "$ROOT_DIR/scripts" -maxdepth 1 -type f -name "${pattern}-*.sh" | grep -q .; then
+        echo "FALTANDO: módulo $n"
         failed=1
     fi
 done
+
+count="$(find "$ROOT_DIR/scripts" -maxdepth 1 -type f -name '[0-9]*-*.sh' | wc -l)"
+echo "Scripts de módulo encontrados: $count"
 
 if [ "$failed" -ne 0 ]; then
     exit 1

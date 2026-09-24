@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -10,7 +9,7 @@ echo "Instalando Expect 5.45.4..."
 run_chroot <<'CHROOT'
 set -e
 
-python3 -c 'from pty import spawn; spawn(["echo", "ok"])'
+python3 -c 'from pty import spawn; spawn(["echo", "ok"])' </dev/null
 
 cd /sources
 rm -rf expect5.45.4

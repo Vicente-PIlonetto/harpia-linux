@@ -17,6 +17,7 @@ Uso:
   ./build.sh --phase chroot --execute
   ./build.sh --cleanup --execute
   ./build.sh --phase base --execute
+  ./build.sh --phase base-next --execute
   ./build.sh --from N --to N --execute
 
 Fases:
@@ -24,9 +25,13 @@ Fases:
   cross      07-11
   temporary  12-28
   chroot     29-40
-  cleanup    41 (alto impacto; separado de propósito)
-  helper     42 desmonta kernfs; nunca é executado automaticamente
-  base       43-72
+  cleanup    41
+  helper     42
+  base       43-100
+  base-next  83-100
+
+Roadmap 101-165:
+  build/roadmap/first-boot.tsv
 
 Antes de executar:
   ./deploy.sh
@@ -34,7 +39,7 @@ EOF
 }
 
 list_scripts() {
-    find "$SCRIPT_DIR" -maxdepth 1 -type f -name '[0-9][0-9]-*.sh' -printf '%f\n' | sort
+    find "$SCRIPT_DIR" -maxdepth 1 -type f -name '[0-9][0-9]*-*.sh' -printf '%f\n' | sort -V
 }
 
 require_execute=0
@@ -77,11 +82,10 @@ run_range() {
     local a="$1" b="$2"
     local n file
     for n in $(seq "$a" "$b"); do
-        # 42 é helper e nunca faz parte do build linear.
         [ "$n" -eq 42 ] && continue
-        file="$(find "$SCRIPT_DIR" -maxdepth 1 -type f -name "$(printf '%02d' "$n")-*.sh" | sort | head -n1)"
+        file="$(find "$SCRIPT_DIR" -maxdepth 1 -type f -name "$(printf '%02d' "$n")-*.sh" -o -name "${n}-*.sh" | sort -V | head -n1)"
         if [ -z "$file" ]; then
-            echo "ERRO: módulo $(printf '%02d' "$n") não encontrado."
+            echo "ERRO: módulo $n não encontrado."
             exit 1
         fi
         echo
@@ -98,15 +102,14 @@ case "$mode" in
     temporary) run_range 12 28 ;;
     chroot) run_range 29 40 ;;
     cleanup)
-        echo "ATENÇÃO: o módulo 41 remove /tools e outros arquivos temporários."
-        echo "Ele só deve ser executado após validar completamente a fase 29-40."
         if [ "${HARP_ALLOW_CLEANUP:-0}" != "1" ]; then
             echo "Para liberar: HARP_ALLOW_CLEANUP=1 ./build.sh --cleanup --execute"
             exit 2
         fi
         run_range 41 41
         ;;
-    base) run_range 43 72 ;;
+    base) run_range 43 100 ;;
+    base-next) run_range 83 100 ;;
     "")
         if [ -n "$from" ] && [ -n "$to" ]; then
             run_range "$from" "$to"

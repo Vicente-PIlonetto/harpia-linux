@@ -1,45 +1,38 @@
 # Build oficial da Harpia Linux
 
-Esta árvore consolida o fluxo LFS 13.1-systemd revisado até o módulo 72.
+## Estado
 
-## Preparar runtime na VM
+- 01–71: validados incrementalmente na VM.
+- 72: GCC final em validação.
+- 73–82: implementados e preparados para teste.
+- 83–100: implementados nesta atualização e aguardando teste.
+- 101–165: numeração congelada no roadmap, ainda não executável.
+
+Roadmap:
+
+```text
+build/roadmap/first-boot.tsv
+```
+
+## Atualizar runtime
 
 ```bash
-cd harpia-linux/build
+cd ~/harpia-linux/build
 ./validate.sh
 ./deploy.sh
 ```
 
-Isso cria/atualiza `~/lfs-build`, layout ainda esperado pelos módulos atuais.
+## Teste incremental
 
-## Execução por fase
-
-```bash
-./build.sh --phase host --execute
-./build.sh --phase cross --execute
-./build.sh --phase temporary --execute
-./build.sh --phase chroot --execute
-```
-
-Depois de validar 29-40:
+Na primeira passagem, execute um módulo por vez. Exemplo:
 
 ```bash
-HARP_ALLOW_CLEANUP=1 ./build.sh --cleanup --execute
-./build.sh --phase base --execute
+HOME=/home/viko HARP_RUN_TESTS=1 HARP_JOBS=8 \
+~/lfs-build/scripts/83-expat.sh
 ```
 
-O módulo 42 desmonta kernfs e é auxiliar:
+A fase `base-next` existe somente para uso depois da validação individual:
 
 ```bash
-~/lfs-build/scripts/42-desmontar-kernfs.sh
+HARP_JOBS=8 ./build.sh --phase base-next --execute
 ```
-
-Ele não é chamado pelo master.
-
-## Retomar de um ponto específico
-
-```bash
-./build.sh --from 7 --to 11 --execute
-```
-
-Use snapshots da VM antes das fases de alto impacto.

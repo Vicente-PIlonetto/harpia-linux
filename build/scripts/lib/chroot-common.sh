@@ -1,15 +1,15 @@
 #!/bin/bash
-
 set -e
 
-source "$HOME/lfs-build/config.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../../config.sh"
 
 HARP_RUN_TESTS="${HARP_RUN_TESTS:-1}"
 HARP_JOBS="${HARP_JOBS:-$(nproc)}"
+HARP_TIMEZONE="${HARP_TIMEZONE:-America/Sao_Paulo}"
 
 require_chroot_mounts() {
     local missing=0
-
     for path in dev proc sys run; do
         if ! mountpoint -q "$LFS/$path"; then
             echo "ERRO: $LFS/$path não está montado."
@@ -37,5 +37,6 @@ run_chroot() {
         TESTSUITEFLAGS="-j${HARP_JOBS}" \
         HARP_RUN_TESTS="${HARP_RUN_TESTS}" \
         HARP_JOBS="${HARP_JOBS}" \
+        HARP_TIMEZONE="${HARP_TIMEZONE}" \
         /bin/bash -s
 }

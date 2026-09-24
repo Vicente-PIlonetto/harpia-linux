@@ -1,0 +1,84 @@
+module	name	phase	status
+83	Expat	LFS Chapter 8	implemented
+84	Inetutils	LFS Chapter 8	implemented
+85	Less	LFS Chapter 8	implemented
+86	Perl	LFS Chapter 8	implemented
+87	Autoconf	LFS Chapter 8	implemented
+88	Automake	LFS Chapter 8	implemented
+89	OpenSSL	LFS Chapter 8	implemented
+90	Libelf	LFS Chapter 8	implemented
+91	Libffi	LFS Chapter 8	implemented
+92	SQLite	LFS Chapter 8	implemented
+93	mpdecimal	LFS Chapter 8	implemented
+94	Python	LFS Chapter 8	implemented
+95	Flit-Core	LFS Chapter 8	implemented
+96	Packaging	LFS Chapter 8	implemented
+97	Wheel	LFS Chapter 8	implemented
+98	Setuptools	LFS Chapter 8	implemented
+99	Meson	LFS Chapter 8	implemented
+100	Kmod	LFS Chapter 8	implemented
+101	Coreutils	LFS Chapter 8	reserved
+102	Diffutils	LFS Chapter 8	reserved
+103	Findutils	LFS Chapter 8	reserved
+104	Groff	LFS Chapter 8	reserved
+105	GRUB	LFS Chapter 8	reserved
+106	Gzip	LFS Chapter 8	reserved
+107	IPRoute2	LFS Chapter 8	reserved
+108	Kbd	LFS Chapter 8	reserved
+109	Libpipeline	LFS Chapter 8	reserved
+110	Make	LFS Chapter 8	reserved
+111	Patch	LFS Chapter 8	reserved
+112	Tar	LFS Chapter 8	reserved
+113	Texinfo	LFS Chapter 8	reserved
+114	Vim	LFS Chapter 8	reserved
+115	MarkupSafe	LFS Chapter 8	reserved
+116	Jinja2	LFS Chapter 8	reserved
+117	Systemd	LFS Chapter 8	reserved
+118	D-Bus	LFS Chapter 8	reserved
+119	Man-DB	LFS Chapter 8	reserved
+120	Procps-ng	LFS Chapter 8	reserved
+121	Util-linux	LFS Chapter 8	reserved
+122	E2fsprogs	LFS Chapter 8	reserved
+123	Stripping	LFS Chapter 8	reserved
+124	Cleaning Up	LFS Chapter 8	reserved
+125	General network configuration	System configuration	reserved
+126	Hostname	System configuration	reserved
+127	/etc/hosts	System configuration	reserved
+128	Devices and modules	System configuration	reserved
+129	System clock	System configuration	reserved
+130	Linux console	System configuration	reserved
+131	System locale	System configuration	reserved
+132	/etc/inputrc	System configuration	reserved
+133	/etc/shells	System configuration	reserved
+134	systemd configuration	System configuration	reserved
+135	/etc/fstab	Kernel/fstab	reserved
+136	Prepare Linux 7.1.8 sources	Kernel/fstab	reserved
+137	Kernel configuration	Kernel/fstab	reserved
+138	Build kernel	Kernel/fstab	reserved
+139	Install kernel modules	Kernel/fstab	reserved
+140	Install kernel artifacts	Kernel/fstab	reserved
+141	Prepare EFI System Partition	Harpia boot/preflight	reserved
+142	Configure systemd-boot	Harpia boot/preflight	reserved
+143	Prepare initramfs	Harpia boot/preflight	reserved
+144	Generate UKI	Harpia boot/preflight	reserved
+145	Create Harpia boot entry	Harpia boot/preflight	reserved
+146	Configure Btrfs root	Harpia boot/preflight	reserved
+147	Configure Btrfs subvolumes	Harpia boot/preflight	reserved
+148	Initial snapshots	Harpia boot/preflight	reserved
+149	Root account configuration	Harpia boot/preflight	reserved
+150	Create Harpia user	Harpia boot/preflight	reserved
+151	Administrative privileges	Harpia boot/preflight	reserved
+152	Initial network service	Harpia boot/preflight	reserved
+153	machine-id	Harpia boot/preflight	reserved
+154	DNS/resolver	Harpia boot/preflight	reserved
+155	Final timezone	Harpia boot/preflight	reserved
+156	Final locale verification	Harpia boot/preflight	reserved
+157	Base hardening	Harpia boot/preflight	reserved
+158	Library/linker validation	Harpia boot/preflight	reserved
+159	systemd service validation	Harpia boot/preflight	reserved
+160	Kernel/UKI validation	Harpia boot/preflight	reserved
+161	First-boot preflight	Harpia boot/preflight	reserved
+162	Final build cleanup	Harpia boot/preflight	reserved
+163	Pre-first-boot snapshot	Harpia boot/preflight	reserved
+164	Unmount kernfs	Harpia boot/preflight	reserved
+165	FIRST BOOT	Harpia boot/preflight	reserved
