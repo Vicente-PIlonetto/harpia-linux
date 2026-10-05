@@ -23,8 +23,8 @@ sources=""
 lock=""
 while (($#)); do
   case "$1" in
-    --sources) sources="@{2:-}"; shift 2 ;;
-    --lock) lock="@{2:-}"; shift 2 ;;
+    --sources) sources="${2:-}"; shift 2 ;;
+    --lock) lock="${2:-}"; shift 2 ;;
     --help|-h) usage; exit 0 ;;
     *) die "unknown argument: $1" ;;
   esac

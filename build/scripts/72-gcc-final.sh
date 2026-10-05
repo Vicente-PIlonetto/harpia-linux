@@ -49,12 +49,24 @@ if [ "$HARP_RUN_TESTS" = "1" ]; then
     set +e
     su tester -c "PATH=$PATH make -k -j${HARP_JOBS:-1} check" \
         2>&1 | tee /sources/gcc-16.2.0-check.log
+    test_rc=${PIPESTATUS[0]}
     set -e
 
     chown -R root:root .
 
     ../contrib/test_summary -t \
         2>&1 | tee /sources/gcc-16.2.0-test-summary.log || true
+
+    if [ "$test_rc" -ne 0 ]; then
+        echo
+        echo "AVISO: a suíte de testes do GCC retornou código $test_rc."
+        echo "Revise os logs antes de continuar:"
+        echo "  /sources/gcc-16.2.0-check.log"
+        echo "  /sources/gcc-16.2.0-test-summary.log"
+        echo
+        echo "A instalação não será interrompida automaticamente porque"
+        echo "algumas falhas podem ser conhecidas nesta etapa do LFS."
+    fi
 
     echo
     echo "Resumo GCC salvo em:"

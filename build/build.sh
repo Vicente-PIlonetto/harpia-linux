@@ -83,7 +83,7 @@ run_range() {
     local n file
     for n in $(seq "$a" "$b"); do
         [ "$n" -eq 42 ] && continue
-        file="$(find "$SCRIPT_DIR" -maxdepth 1 -type f -name "$(printf '%02d' "$n")-*.sh" -o -name "${n}-*.sh" | sort -V | head -n1)"
+        file="$(find "$SCRIPT_DIR" -maxdepth 1 -type f \( -name "$(printf '%02d' "$n")-*.sh" -o -name "${n}-*.sh" \) | sort -V | head -n1)"
         if [ -z "$file" ]; then
             echo "ERRO: módulo $n não encontrado."
             exit 1

@@ -25,7 +25,7 @@ EOF
 expected_env=""
 while (($#)); do
   case "$1" in
-    --expected-env) expected_env="@{2:-}"; shift 2 ;;
+    --expected-env) expected_env="${2:-}"; shift 2 ;;
     --help|-h) usage; exit 0 ;;
     *) die "unknown argument: $1" ;;
   esac

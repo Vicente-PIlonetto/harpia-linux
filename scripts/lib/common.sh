@@ -5,8 +5,12 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-readonly REPO_ROOT="$(cd -- "${SCRIPT_DIR}/../.." && pwd)"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+readonly SCRIPT_DIR
+
+REPO_ROOT="$(cd -- "${SCRIPT_DIR}/../.." && pwd)"
+# shellcheck disable=SC2034
+readonly REPO_ROOT
 
 die() {
   printf 'error: %s\n' "$*" >&2

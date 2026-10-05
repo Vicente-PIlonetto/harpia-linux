@@ -23,10 +23,20 @@ make
 
 if [ "$HARP_RUN_TESTS" = "1" ]; then
     echo "Executando testes do Acl..."
-    echo "OBS: test/cp.run é uma falha conhecida nesta etapa do LFS."
+    echo "OBS: test/cp.run pode ser uma falha conhecida nesta etapa do LFS."
+
     set +e
     make check 2>&1 | tee /sources/acl-2.4.0-check.log
+    test_rc=${PIPESTATUS[0]}
     set -e
+
+    if [ "$test_rc" -ne 0 ]; then
+        echo
+        echo "ERRO: a suíte de testes do Acl retornou código $test_rc."
+        echo "Revise o log antes de continuar:"
+        echo "  /sources/acl-2.4.0-check.log"
+        exit "$test_rc"
+    fi
 fi
 
 make install
