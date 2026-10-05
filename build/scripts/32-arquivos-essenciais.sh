@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
-source "$HOME/lfs-build/config.sh"
 
+source "$HOME/lfs-build/config.sh"
 
 run_chroot() {
     sudo chroot "$LFS" /usr/bin/env -i \
@@ -16,6 +16,7 @@ run_chroot() {
 
 echo "Criando arquivos essenciais..."
 
+# shellcheck disable=SC2016
 run_chroot '
 set -e
 

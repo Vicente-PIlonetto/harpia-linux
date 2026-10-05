@@ -25,10 +25,9 @@ A Harpia está sendo construída e validada incrementalmente em VM. Ainda não e
 | --- | :---: |
 | Filosofia e arquitetura | ✅ |
 | Scripts históricos preservados | ✅ |
-| Módulos 01–71 | ✅ validados na VM |
-| Módulo 72 — GCC final | 🟡 em validação |
-| Módulos 73–82 | 🟡 implementados |
-| Módulos 83–100 | 🟡 implementados, aguardando teste |
+| Módulos 01–84 | ✅ validados na VM |
+| Módulo 85 — GCC less | 🟡 em validação |
+| Módulos 86–100 | 🟡 implementados, aguardando teste |
 | Módulos 101–124 | 📌 numeração reservada |
 | Configuração/kernel 125–140 | 📌 roadmap congelado |
 | Boot/preflight 141–164 | 📌 roadmap congelado |

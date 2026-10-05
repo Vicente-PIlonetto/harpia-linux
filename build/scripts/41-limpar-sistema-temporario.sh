@@ -1,7 +1,18 @@
 #!/bin/bash
-set -e
+set -euo pipefail
+
 source "$HOME/lfs-build/config.sh"
 
+if [ "${HARP_ALLOW_CLEANUP:-0}" != "1" ]; then
+    echo "ERRO: limpeza bloqueada por segurança."
+    echo
+    echo "Este módulo remove arquivos temporários e /tools."
+    echo "Execute somente quando tiver certeza de que deseja continuar."
+    echo
+    echo "Para liberar:"
+    echo "  HARP_ALLOW_CLEANUP=1 $0"
+    exit 2
+fi
 
 run_chroot() {
     sudo chroot "$LFS" /usr/bin/env -i \

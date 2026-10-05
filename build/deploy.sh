@@ -7,7 +7,7 @@ DEST="${HARP_RUNTIME_DIR:-$HOME/lfs-build}"
 mkdir -p "$DEST/scripts/lib"
 
 cp -v "$ROOT_DIR/config.sh" "$DEST/config.sh"
-cp -v "$ROOT_DIR/scripts/"[0-9][0-9]-*.sh "$DEST/scripts/"
+cp -v "$ROOT_DIR/scripts/"[0-9]*-*.sh "$DEST/scripts/"
 cp -v "$ROOT_DIR/scripts/lib/chroot-common.sh" "$DEST/scripts/lib/chroot-common.sh"
 
 chmod +x "$DEST/config.sh" "$DEST/scripts/"*.sh "$DEST/scripts/lib/"*.sh
