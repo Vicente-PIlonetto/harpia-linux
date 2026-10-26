@@ -13,7 +13,7 @@ while IFS= read -r -d '' f; do
 done < <(find "$ROOT_DIR" -type f -name '*.sh' -print0)
 
 echo "Validando módulos implementados..."
-for n in $(seq 1 100); do
+for n in $(seq 1 124); do
     [ "$n" -eq 42 ] && continue
     pattern="$(printf '%02d' "$n")"
     if [ "$n" -ge 100 ]; then pattern="$n"; fi
